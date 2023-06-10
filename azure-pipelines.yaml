@@ -1,0 +1,23 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+
+trigger:
+  branches:
+    include:
+      - main
+
+
+steps:
+  - script: npm install
+    displayName: 'Install dependencies'
+
+  - script: docker build -t avinashg07/sample-nodejs-app:latest .
+    displayName: 'Docker Build'
+
+  - task: Docker@2
+    displayName: 'Docker Push'
+    inputs:
+      command: push
+      imageName: 'avinashg07/sample-nodejs-app:latest'
+      containerRegistry: 'your-docker-registry-connection-name'
