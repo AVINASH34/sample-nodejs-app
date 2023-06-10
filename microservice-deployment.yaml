@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-microservice-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-microservice
+  template:
+    metadata:
+      labels:
+        app: my-microservice
+    spec:
+      containers:
+      - name: my-microservice
+        image: avinashg07/my-microservice:latest
+        ports:
+        - containerPort: 3000
+
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-microservice-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-microservice
+  ports:
+  - protocol: TCP
+    port: 35000
+    targetPort: 3000
+
+
